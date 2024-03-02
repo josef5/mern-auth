@@ -38,7 +38,7 @@ const Login = () => {
     } catch (error) {
       console.error(error);
 
-      setError((error as Error).message);
+      setError("There was an error logging in. Please try again.");
       setIsAuth(false);
       setIsFetching(false);
     }
