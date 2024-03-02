@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 
 const Login = () => {
-  const [username, setUsername] = useState<string>("test@test.com");
-  const [password, setPassword] = useState<string>("aaaaaa");
+  const [username, setUsername] = useState("test@test.com");
+  const [password, setPassword] = useState("aaaaaa");
 
   const [isFetching, setIsFetching] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
