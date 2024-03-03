@@ -7,7 +7,6 @@ const Login = () => {
   const [password, setPassword] = useState("aaaaaa");
 
   const [isFetching, setIsFetching] = useState(false);
-  // const [isAuth, setIsAuth] = useState(false);
   const [error, setError] = useState("");
   const { auth, setAuth } = useAuth();
 
@@ -34,7 +33,6 @@ const Login = () => {
         throw new Error(data.message);
       }
 
-      // setIsAuth(true);
       setAuth({ username: data.username, isAuthenticated: true });
       setIsFetching(false);
       setError("");
@@ -42,7 +40,6 @@ const Login = () => {
       console.error(error);
 
       setError("There was an error logging in. Please try again.");
-      // setIsAuth(false);
       setAuth({ username: "", isAuthenticated: false });
       setIsFetching(false);
     }
@@ -54,7 +51,7 @@ const Login = () => {
     return <div>Loading...</div>;
   }
 
-  if (auth) {
+  if (auth.isAuthenticated) {
     return <Navigate to="/" />;
   }
 
