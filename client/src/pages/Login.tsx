@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const Login = () => {
   const [username, setUsername] = useState("test@test.com");
   const [password, setPassword] = useState("aaaaaa");
 
   const [isFetching, setIsFetching] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
+  // const [isAuth, setIsAuth] = useState(false);
   const [error, setError] = useState("");
+  const { auth, setAuth } = useAuth();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -32,25 +34,27 @@ const Login = () => {
         throw new Error(data.message);
       }
 
-      setIsAuth(true);
+      // setIsAuth(true);
+      setAuth({ username: data.username, isAuthenticated: true });
       setIsFetching(false);
       setError("");
     } catch (error) {
       console.error(error);
 
       setError("There was an error logging in. Please try again.");
-      setIsAuth(false);
+      // setIsAuth(false);
+      setAuth({ username: "", isAuthenticated: false });
       setIsFetching(false);
     }
   };
 
-  console.log({ isFetching, isAuth, error });
+  console.log({ isFetching, auth, error });
 
   if (isFetching) {
     return <div>Loading...</div>;
   }
 
-  if (isAuth) {
+  if (auth) {
     return <Navigate to="/" />;
   }
 
