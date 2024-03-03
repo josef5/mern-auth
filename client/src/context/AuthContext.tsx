@@ -1,30 +1,31 @@
 import { createContext, useState } from "react";
 
-interface AuthContextType {
-  auth?: {
-    username: string;
-    password: string;
-    accessToken: string;
-    // isLoggedIn?: boolean;
-  };
-  setAuth?: React.Dispatch<
-    React.SetStateAction<{
-      username: string;
-      password: string;
-      accessToken: string;
-      // isLoggedIn?: boolean;
-    }>
-  >;
+interface AuthData {
+  username: string;
+  // password: string;
+  // accessToken: string;
+  isAuthenticated?: boolean;
 }
 
-const AuthContext = createContext<AuthContextType>({});
+interface AuthContextType {
+  auth: AuthData;
+  setAuth: React.Dispatch<React.SetStateAction<AuthData>>;
+}
+
+const initialAuthData: AuthData = {
+  username: "",
+  // password: "",
+  // accessToken: "",
+  isAuthenticated: false,
+};
+
+const AuthContext = createContext<AuthContextType>({
+  auth: initialAuthData,
+  setAuth: () => {},
+});
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [auth, setAuth] = useState({
-    username: "",
-    password: "",
-    accessToken: "",
-  });
+  const [auth, setAuth] = useState<AuthData>(initialAuthData);
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
