@@ -39,7 +39,7 @@ const useLogin = () => {
     }
   };
 
-  return { isFetching, error, login };
+  return { login, isFetching, error };
 };
 
 export default useLogin;

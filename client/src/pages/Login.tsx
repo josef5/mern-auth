@@ -1,51 +1,21 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import useLogin from "../hooks/useLogin";
 
 const Login = () => {
   const [username, setUsername] = useState("test@test.com");
   const [password, setPassword] = useState("aaaaaa");
-
-  const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState("");
-  const { auth, setAuth } = useAuth();
+  const { auth } = useAuth();
+  const { login, isFetching, error } = useLogin();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    console.log({ username, password });
-
-    setIsFetching(true);
-
-    try {
-      const response = await fetch("/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await response.json();
-      console.log("data :", data);
-
-      if (!response.ok) {
-        throw new Error(data.message);
-      }
-
-      setAuth({ username: data.username, isAuthenticated: true });
-      setIsFetching(false);
-      setError("");
-    } catch (error) {
-      console.error(error);
-
-      setError("There was an error logging in. Please try again.");
-      setAuth({ username: "", isAuthenticated: false });
-      setIsFetching(false);
-    }
+    login(username, password);
   };
 
-  console.log({ isFetching, auth, error });
+  // console.log({ isFetching, auth, error });
 
   if (isFetching) {
     return <div>Loading...</div>;
