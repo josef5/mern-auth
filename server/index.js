@@ -52,7 +52,7 @@ app.post("/auth/login", (req, res) => {
 });
 
 app.get("/auth/status", (req, res) => {
-  const token = req.cookies.token;
+  const token = req.cookies.accessToken;
   console.log("token :", token);
 
   if (!token) {
