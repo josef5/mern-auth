@@ -1,9 +1,10 @@
-import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
-  const { auth, fetchAuthStatus, /* isFetching, */ error } = useAuth();
+  const { auth, fetchAuthStatus, isFetching, error } = useAuth();
+  const location = useLocation();
 
   useEffect(() => {
     (async () => {
@@ -14,13 +15,12 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   console.log("auth.isAuthenticated :", auth.isAuthenticated);
 
   if (!auth.isAuthenticated) {
-    // if (!isAuth) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" state={{ from: location }} />;
   }
 
-  /* if (isFetching) {
-    return <div>Loading...</div>;
-  } */
+  if (isFetching) {
+    // return <div>Loading...</div>;
+  }
 
   if (error !== "") {
     return <div>{error}</div>;

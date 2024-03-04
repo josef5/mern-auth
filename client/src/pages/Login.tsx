@@ -1,13 +1,16 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useLogin from "../hooks/useLogin";
 
 const Login = () => {
   const [username, setUsername] = useState("test@test.com");
   const [password, setPassword] = useState("aaaaaa");
+
   const { auth } = useAuth();
   const { login, isFetching, error } = useLogin();
+  const location = useLocation();
+  const intendedPath = location.state?.from?.pathname ?? "/";
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -15,14 +18,12 @@ const Login = () => {
     login(username, password);
   };
 
-  // console.log({ isFetching, auth, error });
-
   if (isFetching) {
     return <div>Loading...</div>;
   }
 
   if (auth.isAuthenticated) {
-    return <Navigate to="/" />;
+    return <Navigate to={intendedPath} />;
   }
 
   return (
