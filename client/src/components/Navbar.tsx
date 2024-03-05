@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
+  const {
+    auth: { isAuthenticated, username },
+  } = useAuth();
+
   return (
     <header>
       <nav>
@@ -11,9 +16,16 @@ const Navbar = () => {
           <li>
             <Link to="/admin">Admin</Link>
           </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
+          {isAuthenticated ? (
+            <>
+              <li>{username}</li>
+              <li>{/* <Link to="/logout">Logout</Link> */}</li>
+            </>
+          ) : (
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
