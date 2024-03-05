@@ -1,7 +1,10 @@
 import useAuth from "../hooks/useAuth";
+import useAuthStatus from "../hooks/useAuthStatus";
 
 const Home = () => {
-  const { useSetAuthStatus } = useAuth();
+  const { auth } = useAuth();
+  const { useSetAuthStatus } = useAuthStatus();
+  console.log("auth :", auth);
 
   useSetAuthStatus();
 
