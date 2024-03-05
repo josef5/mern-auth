@@ -40,8 +40,7 @@ app.post("/auth/login", (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // const token = jwt.sign({ user: "admin" }, "secret", { expiresIn: "1h" });
-    const token = "token";
+    const token = jwt.sign({ username }, "secret", { expiresIn: "1h" });
 
     res.cookie("accessToken", token, { httpOnly: true });
 
@@ -53,33 +52,23 @@ app.post("/auth/login", (req, res) => {
 
 app.get("/auth/status", (req, res) => {
   const token = req.cookies.accessToken;
-  console.log("token :", token);
+  // console.log("token :", token);
 
   if (!token) {
-    return res.json({ isAuthenticated: false });
+    return res.status(401).json({ isAuthenticated: false, error: "No token" });
   }
 
-  if (token === "token") {
-    res.json({ isAuthenticated: true });
-  } else {
-    res.json({ isAuthenticated: false });
-  }
+  jwt.verify(token, "secret", (error, user) => {
+    if (error) {
+      return res
+        .status(401)
+        .json({ isAuthenticated: false, error: error.message });
+    }
+    return res
+      .status(200)
+      .json({ isAuthenticated: true, username: user.username });
+  });
 });
-
-/* app.get("/auth/status", (req, res) => {
-  const token = req.cookies.accessToken; // Assuming 'accessToken' is the name of your cookie
-
-  if (!token) {
-    return res.json({ isAuthenticated: false });
-  }
-
-  try {
-    jwt.verify(token, "yourSecretKey"); // Replace 'yourSecretKey' with your actual secret key
-    res.json({ isAuthenticated: true });
-  } catch (err) {
-    res.json({ isAuthenticated: false });
-  }
-}); */
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
