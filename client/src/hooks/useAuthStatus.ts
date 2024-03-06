@@ -21,7 +21,7 @@ const useAuthStatus = () => {
 
       setAuth({ username, isAuthenticated });
     } catch (error) {
-      console.error(error);
+      console.error((error as Error).message);
 
       setError((error as Error).message);
       setAuth({ username: "", isAuthenticated: false });

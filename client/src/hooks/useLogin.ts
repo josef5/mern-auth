@@ -31,7 +31,7 @@ const useLogin = () => {
       setIsFetching(false);
       setError("");
     } catch (error) {
-      console.error(error);
+      console.error((error as Error).message);
 
       setError("There was an error logging in. Please try again.");
       setAuth({ username: "", isAuthenticated: false });
