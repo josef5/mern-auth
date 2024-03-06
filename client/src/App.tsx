@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import PrivateRoute from "./routes/PrivateRoute";
 import "./App.css";
 
@@ -15,7 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            {/* {<Route path="/admin" element={<Admin />} />} */}
+            <Route path="/register" element={<Register />} />
             <Route
               path="/admin"
               element={

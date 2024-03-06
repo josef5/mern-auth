@@ -6,7 +6,7 @@ nav ul {
   padding: 0;
 }
 
-form.signup,
+form.register,
 form.login {
   max-width: 400px;
 }
