@@ -2,13 +2,11 @@ import { useState } from "react";
 import useAuth from "./useAuth";
 
 const useLogin = () => {
-  const [isFetching, setIsFetching] = useState(false);
   const { setAuth } = useAuth();
+  const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState("");
 
   const login = async (username: string, password: string) => {
-    console.log({ username, password });
-
     setIsFetching(true);
 
     try {
@@ -21,7 +19,6 @@ const useLogin = () => {
       });
 
       const data = await response.json();
-      // console.log("data :", data);
 
       if (!response.ok) {
         throw new Error(data.message);

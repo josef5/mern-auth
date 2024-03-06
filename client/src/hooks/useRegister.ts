@@ -7,8 +7,6 @@ const useRegister = () => {
   const [error, setError] = useState("");
 
   const register = async (username: string, password: string) => {
-    console.log({ username, password });
-
     setIsFetching(true);
 
     try {
