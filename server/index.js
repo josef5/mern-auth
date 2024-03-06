@@ -5,10 +5,13 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
-
-const PORT = process.env.PORT || 3001;
+const User = require("./models/userModel");
+const PORT = process.env.PORT || 4000;
 
 const app = express();
+
+// Middleware
+app.use(express.json());
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
@@ -16,46 +19,43 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  console.log("Cookies: ", req.cookies);
-});
+const createToken = (username) =>
+  jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: "2h" });
 
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
-
-app.post("/auth/register", (req, res) => {
+app.post("/auth/register", async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // const token = jwt.sign({ user: "admin" }, "secret", { expiresIn: "1h" });
-    const token = "token";
+    const user = await User.register(username, password);
+    const token = createToken(user.username);
 
-    res.cookie("accessToken", token, { httpOnly: true });
+    res.cookie("accessToken", token, { httpOnly: true, secure: true });
 
     res.status(200).json({ message: "User registered successfully" });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({
+      message: error.message,
+    });
   }
 });
 
-app.post("/auth/login", (req, res) => {
+app.post("/auth/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const token = jwt.sign({ username }, "secret", { expiresIn: "1h" });
+    const user = await User.login(username, password);
+    const token = createToken(user.username);
 
-    res.cookie("accessToken", token, { httpOnly: true });
+    res.cookie("accessToken", token, { httpOnly: true, secure: true });
 
-    res.status(200).json({ message: "Login successful" });
+    res.status(200).json({ isAuthenticated: true, username: user.username });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(401).json({ isAuthenticated: false, message: error.message });
   }
 });
 
 app.get("/auth/status", (req, res) => {
   const token = req.cookies.accessToken;
-  // console.log("token :", token);
 
   if (!token) {
     return res.status(401).json({ isAuthenticated: false, error: "No token" });
@@ -67,15 +67,10 @@ app.get("/auth/status", (req, res) => {
         .status(401)
         .json({ isAuthenticated: false, error: error.message });
     }
-    return res
-      .status(200)
-      .json({ isAuthenticated: true, username: user.username });
+    res.status(200).json({ isAuthenticated: true, username: user.username });
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
 // Connect to db
 mongoose
   .connect(process.env.MONGO_URI)
