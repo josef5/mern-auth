@@ -33,9 +33,7 @@ app.post("/auth/register", async (req, res) => {
 
     res.status(200).json({ message: "User registered successfully" });
   } catch (error) {
-    res.status(400).json({
-      message: error.message,
-    });
+    res.status(400).json({ message: error.message });
   }
 });
 
@@ -67,8 +65,15 @@ app.get("/auth/status", (req, res) => {
         .status(401)
         .json({ isAuthenticated: false, error: error.message });
     }
+
     res.status(200).json({ isAuthenticated: true, username: user.username });
   });
+});
+
+app.get("/auth/logout", (req, res) => {
+  res.cookie("accessToken", "", { maxAge: 0 });
+
+  res.status(200).json({ message: "User logged out successfully" });
 });
 
 // Connect to db

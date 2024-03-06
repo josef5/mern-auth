@@ -9,25 +9,26 @@ export default defineConfig({
       "/api": {
         target: "http://localhost:4000",
         changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/api/, ""),
         // secure: false,
       },
       "/auth/status": {
         target: "http://localhost:4000",
         changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/auth/, ""),
         // secure: false,
       },
       "/auth/register": {
         target: "http://localhost:4000",
         changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/auth/, ""),
         // secure: false,
       },
       "/auth/login": {
         target: "http://localhost:4000",
         changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/auth/, ""),
+        // secure: false,
+      },
+      "/auth/logout": {
+        target: "http://localhost:4000",
+        changeOrigin: true,
         // secure: false,
       },
     },
