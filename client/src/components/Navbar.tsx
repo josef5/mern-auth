@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import useLogout from "../hooks/useLogout";
 
 const Navbar = () => {
   const {
-    auth: { isAuthenticated, username },
+    auth: { username, isAuthenticated },
   } = useAuth();
+
+  const { logout } = useLogout();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <header>
@@ -19,7 +26,9 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
               <li>{username}</li>
-              <li>{/* <Link to="/logout">Logout</Link> */}</li>
+              <li>
+                <button onClick={handleLogout}>Logout</button>
+              </li>
             </>
           ) : (
             <>
