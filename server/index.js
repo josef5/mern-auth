@@ -61,7 +61,7 @@ app.get("/auth/status", (req, res) => {
       .json({ isAuthenticated: false, message: "No token" });
   }
 
-  jwt.verify(token, "secret", (error, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
     if (error) {
       return res
         .status(401)
