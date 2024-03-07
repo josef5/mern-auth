@@ -28,7 +28,7 @@ const useRegister = () => {
       setIsFetching(false);
       setError("");
     } catch (error) {
-      console.error((error as Error).message);
+      console.error(error);
 
       setError("There was an error registering the user. Please try again.");
       setAuth({ username: "", isAuthenticated: false });
