@@ -6,8 +6,18 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PrivateRoute from "./routes/PrivateRoute";
 import "./App.css";
+import useAuth from "./hooks/useAuth";
+import useAuthStatus from "./hooks/useAuthStatus";
 
 function App() {
+  const { auth } = useAuth();
+  const { useSetAuthStatus } = useAuthStatus();
+  console.log("auth :", auth);
+
+  // NB. Multiple re-renders due to auth check
+
+  useSetAuthStatus();
+
   return (
     <div className="App">
       <BrowserRouter>
