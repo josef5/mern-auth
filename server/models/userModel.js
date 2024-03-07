@@ -15,7 +15,13 @@ const userSchema = new Schema({
   },
 });
 
-// Static signup method
+/**
+ * Register a new user with the given username and password.
+ *
+ * @param {string} username - The username for the new user
+ * @param {string} password - The password for the new user
+ * @return {Promise<object>} The newly created user object
+ */
 userSchema.statics.register = async function (username, password) {
   // Check if username exists
   const existingUser = await this.findOne({ username });
@@ -44,7 +50,13 @@ userSchema.statics.register = async function (username, password) {
   return user;
 };
 
-// Static login method
+/**
+ * A function to log in a user.
+ *
+ * @param {string} username - The username of the user
+ * @param {string} password - The password of the user
+ * @return {Promise<object>} The user object if login is successful
+ */
 userSchema.statics.login = async function (username, password) {
   if (!username || !password) {
     throw Error("All fields must be filled");

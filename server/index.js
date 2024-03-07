@@ -22,6 +22,12 @@ app.use(cookieParser());
 const createToken = (username) =>
   jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: "2h" });
 
+/**
+ * Middleware function to handle user registration.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 app.post("/auth/register", async (req, res) => {
   const { username, password } = req.body;
 
@@ -37,6 +43,12 @@ app.post("/auth/register", async (req, res) => {
   }
 });
 
+/**
+ * Middleware function to handle user login.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 app.post("/auth/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -52,6 +64,12 @@ app.post("/auth/login", async (req, res) => {
   }
 });
 
+/**
+ * Middleware function to check user authentication status.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 app.get("/auth/status", (req, res) => {
   const token = req.cookies.accessToken;
 
@@ -72,6 +90,12 @@ app.get("/auth/status", (req, res) => {
   });
 });
 
+/**
+ * Middleware function to handle user logout.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 app.get("/auth/logout", (req, res) => {
   res.cookie("accessToken", "", { maxAge: 0 });
 

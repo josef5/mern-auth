@@ -6,6 +6,13 @@ const useRegister = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState("");
 
+  /**
+   * Register a new user with the given username and password.
+   *
+   * @param {string} username - the username of the new user
+   * @param {string} password - the password of the new user
+   * @return {void}
+   */
   const register = async (username: string, password: string) => {
     setIsFetching(true);
 

@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import useAuth from "./useAuth";
 
+/**
+ * Set authentication status by fetching data from "/auth/status" endpoint.
+ *
+ * @param None
+ * @return Promise<void> A promise that resolves when the authentication status is set
+ */
 const useAuthStatus = () => {
   const { setAuth } = useAuth();
   const [isFetching, setIsFetching] = useState(false);

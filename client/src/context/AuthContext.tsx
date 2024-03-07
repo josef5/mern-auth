@@ -20,6 +20,12 @@ const AuthContext = createContext<AuthContextType>({
   setAuth: () => {},
 });
 
+/**
+ * AuthProvider component for providing authentication context to its children.
+ *
+ * @param {{ children: React.ReactNode }} children - The child elements to be wrapped by the provider.
+ * @return {JSX.Element} The provider component with authentication context.
+ */
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [auth, setAuth] = useState<AuthData>(initialAuthData);
 

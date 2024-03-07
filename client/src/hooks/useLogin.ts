@@ -6,6 +6,13 @@ const useLogin = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState("");
 
+  /**
+   * A function for logging in with the given username and password.
+   *
+   * @param {string} username - the username to log in with
+   * @param {string} password - the password to log in with
+   * @return {void}
+   */
   const login = async (username: string, password: string) => {
     setIsFetching(true);
 

@@ -6,16 +6,17 @@ const useLogout = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState("");
 
-  const logout = async (/* username: string, password: string */) => {
+  /**
+   * This function logs the user out by sending a request to the server to invalidate the user's session. isFetching and error are unlikely to be useful in the context of a logout operation, but they are included for consistency with the other hooks.
+   *
+   * @return {Promise<void>} This function does not return anything explicitly, but it performs the logout operation asynchronously.
+   */
+  const logout = async () => {
     setIsFetching(true);
 
     try {
       const response = await fetch("/auth/logout", {
         method: "GET",
-        /* headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }), */
       });
 
       const data = await response.json();
@@ -24,8 +25,6 @@ const useLogout = () => {
         throw new Error(data.message);
       }
 
-      /* setAuth({ username: data.username, isAuthenticated: true });
-      setIsFetching(false); */
       setError("");
     } catch (error) {
       console.error(error);
