@@ -56,14 +56,16 @@ app.get("/auth/status", (req, res) => {
   const token = req.cookies.accessToken;
 
   if (!token) {
-    return res.status(401).json({ isAuthenticated: false, error: "No token" });
+    return res
+      .status(401)
+      .json({ isAuthenticated: false, message: "No token" });
   }
 
   jwt.verify(token, "secret", (error, user) => {
     if (error) {
       return res
         .status(401)
-        .json({ isAuthenticated: false, error: error.message });
+        .json({ isAuthenticated: false, message: error.message });
     }
 
     res.status(200).json({ isAuthenticated: true, username: user.username });
